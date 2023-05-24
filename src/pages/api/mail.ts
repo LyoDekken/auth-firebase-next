@@ -2,17 +2,15 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import mail from '@sendgrid/mail'
 
-mail.setApiKey(
-  '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'
-)
+mail.setApiKey(process.env.API_KEY as string)
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { to, html} = JSON.parse(req.body)
+  const { to, html } = req.body
 
   const mailOptions = {
     to,
-    from: 'humberto.araripe12@gmail.com', // Usar o remetente fornecido no corpo da solicitação
-    subject: 'New Message!',
+    from: process.env.MYEMAIL as string, // Usar o remetente fornecido no corpo da solicitação
+    subject: 'MEET-VAPTMED!',
     html,
   }
 

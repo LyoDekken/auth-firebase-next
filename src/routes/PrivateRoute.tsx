@@ -1,10 +1,11 @@
+import React from 'react'
 import { useRouter } from 'next/router'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../firebase/app'
 
 import { Center, Spinner } from '@chakra-ui/react'
 
-export const LoadingCircle = () => (
+export const LoadingCircle: React.ComponentType = () => (
   <Center height="100vh">
     <Spinner size="xl" />
   </Center>

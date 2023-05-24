@@ -31,11 +31,11 @@ export const generatePassword = () => {
 
 export const validationSchema = Yup.object().shape({
   clientEmail: Yup.string()
-    .email('Email inválido')
-    .required('Campo obrigatório'),
+    .email("Email inválido")
+    .required("Campo obrigatório"),
   clinicEmail: Yup.string()
-    .email('Email inválido')
-    .required('Campo obrigatório'),
-  eventDate: Yup.string().required('Campo obrigatório'),
-  time: Yup.string().required('Campo obrigatório'),
-})
+    .email("Email inválido")
+    .required("Campo obrigatório"),
+  eventDate: Yup.string().required("Campo obrigatório"),
+  time: Yup.string().required("Campo obrigatório"),
+});

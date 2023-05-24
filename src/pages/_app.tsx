@@ -1,8 +1,9 @@
+import type { AppProps } from 'next/app'
 import AuthModal from '@/components/AuthModal'
 import theme from '@/theme/theme'
 import { ChakraBaseProvider } from '@chakra-ui/react'
 import { Provider } from 'jotai'
-import type { AppProps } from 'next/app'
+import 'react-toastify/dist/ReactToastify.css'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (

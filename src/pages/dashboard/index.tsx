@@ -1,5 +1,3 @@
-import 'react-toastify/dist/ReactToastify.css'
-
 import DashboardForm from '@/components/DashboardForm'
 import PrivateRoute from '@/routes/PrivateRoute'
 import Layout from '@/pages/layout'

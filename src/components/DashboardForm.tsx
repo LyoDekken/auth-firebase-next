@@ -1,5 +1,11 @@
-import { Formik, Form, Field } from 'formik'
-import { Button, Input, FormControl, FormLabel } from '@chakra-ui/react'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+} from '@chakra-ui/react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {
@@ -7,13 +13,24 @@ import {
   generateRoomId,
   validationSchema,
 } from '@/helpers/helpers'
-import { CreateRoom } from '@/functions/functions'
+
 import fetch from 'node-fetch'
+import { CreateRoom } from '@/functions/functions'
+import { emailTemplate } from '../templates/appointment'
+
+type FormValues = {
+  clientEmail: string
+  clinicEmail: string
+  eventDate: string
+  time: string
+}
 
 const DashboardForm = () => {
-  const handleCreateRoom = async (values: any) => {
+  const handleCreateRoom = async (values: FormValues) => {
     const currentDate = new Date()
     const selectedDate = new Date(`${values.eventDate}T${values.time}`)
+
+    console.log(values)
 
     if (selectedDate < currentDate) {
       toast.error(
@@ -23,7 +40,7 @@ const DashboardForm = () => {
     }
 
     const roomData = {
-      name: `Consulta VAPTMED - ${currentDate}`,
+      name: `Consulta VAPTMED - ${currentDate.getDate}`,
       clientEmail: values.clientEmail,
       clinicEmail: values.clinicEmail,
       eventDate: values.eventDate,
@@ -54,20 +71,11 @@ const DashboardForm = () => {
 
       const clientMailOptions = {
         to: values.clinicEmail,
-        html: `<!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="utf-8">
-            <title>Template de E-mail</title>
-          </head>
-          <body>
-            <h1>Informações da Sala de Consulta</h1>
-            <p>Sala: ${clientMsg.sala}</p>
-            <p>Senha: ${clientMsg.senha}</p>
-            <p>Data do Evento: ${clientMsg.eventDate}</p>
-            <p>Hora do Evento: ${clientMsg.time}</p>
-          </body>
-          </html>`,
+        html: emailTemplate
+          .replace('{{sala}}', clientMsg.sala)
+          .replace('{{senha}}', clientMsg.senha)
+          .replace('{{eventDate}}', clientMsg.eventDate)
+          .replace('{{time}}', clientMsg.time),
       }
 
       const requestOptionsClient = {
@@ -77,7 +85,10 @@ const DashboardForm = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:3000/api/mail', requestOptionsClient)
+        const response = await fetch(
+          'http://localhost:3000/api/mail',
+          requestOptionsClient
+        )
         if (response.ok) {
           console.log('Email sent successfully')
         } else {
@@ -89,20 +100,11 @@ const DashboardForm = () => {
 
       const clinicMailOptions = {
         to: values.clientEmail,
-        html: `<!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="utf-8">
-            <title>Template de E-mail</title>
-          </head>
-          <body>
-            <h1>Informações da Sala de Consulta</h1>
-            <p>Sala: ${clinicMsg.sala}</p>
-            <p>Senha: ${clinicMsg.senha}</p>
-            <p>Data do Evento: ${clinicMsg.eventDate}</p>
-            <p>Hora do Evento: ${clinicMsg.time}</p>
-          </body>
-          </html>`,
+        html: emailTemplate
+          .replace('{{sala}}', clinicMsg.sala)
+          .replace('{{senha}}', clinicMsg.senha)
+          .replace('{{eventDate}}', clinicMsg.eventDate)
+          .replace('{{time}}', clinicMsg.time),
       }
 
       const requestOptionsClinic = {
@@ -112,7 +114,10 @@ const DashboardForm = () => {
       }
 
       try {
-        const response = await fetch('/api/mail', requestOptionsClinic)
+        const response = await fetch(
+          'http://localhost:3000/api/mail',
+          requestOptionsClinic
+        )
         if (response.ok) {
           console.log('Email sent successfully')
         } else {
@@ -122,7 +127,7 @@ const DashboardForm = () => {
         console.error('Error sending email:', error)
       }
     } catch (error) {
-      console.error('Error sending email:', error)
+      console.error('Erro desconhecido:', error)
     }
   }
 
@@ -146,50 +151,97 @@ const DashboardForm = () => {
           onSubmit={handleCreateRoom}
         >
           <Form>
-            <FormControl id="clientEmail" marginBottom="1rem">
-              <FormLabel>Email do Cliente:</FormLabel>
-              <Input
-                type="email"
-                name="clientEmail"
-                placeholder="Digite o e-mail do cliente"
-                as={Field}
-              />
-            </FormControl>
+            <Field name="clientEmail">
+              {({ field, form }: any) => (
+                <FormControl
+                  id="clientEmail"
+                  marginBottom="1rem"
+                  isInvalid={
+                    form.errors.clientEmail && form.touched.clientEmail
+                  }
+                >
+                  <FormLabel>Email do Cliente:</FormLabel>
+                  <Input
+                    {...field}
+                    name="clientEmail"
+                    type="email"
+                    placeholder="Digite o e-mail do cliente"
+                  />
+                  <ErrorMessage
+                    name="clientEmail"
+                    component={FormErrorMessage}
+                  />
+                </FormControl>
+              )}
+            </Field>
 
-            <FormControl id="clinicEmail" marginBottom="1rem">
-              <FormLabel>Email da Clínica:</FormLabel>
-              <Input
-                type="email"
-                name="clinicEmail"
-                placeholder="Digite o e-mail da clínica"
-                as={Field}
-              />
-            </FormControl>
+            <Field name="clinicEmail">
+              {({ field, form }: any) => (
+                <FormControl
+                  id="clinicEmail"
+                  marginBottom="1rem"
+                  isInvalid={
+                    form.errors.clinicEmail && form.touched.clinicEmail
+                  }
+                >
+                  <FormLabel>Email da Clínica:</FormLabel>
+                  <Input
+                    {...field}
+                    type="email"
+                    name="clinicEmail"
+                    placeholder="Digite o e-mail da clínica"
+                  />
+                  <ErrorMessage
+                    name="clinicEmail"
+                    component={FormErrorMessage}
+                  />
+                </FormControl>
+              )}
+            </Field>
 
-            <FormControl id="eventDate" marginBottom="1rem">
-              <FormLabel>Data do Evento:</FormLabel>
-              <Input
-                type="date"
-                name="eventDate"
-                placeholder="Selecione a data do evento"
-                as={Field}
-              />
-            </FormControl>
+            <Field name="eventDate">
+              {({ field, form }: any) => (
+                <FormControl
+                  id="eventDate"
+                  marginBottom="1rem"
+                  isInvalid={form.errors.eventDate && form.touched.eventDate}
+                >
+                  <FormLabel>Data do Evento:</FormLabel>
+                  <Input
+                    {...field}
+                    type="date"
+                    name="eventDate"
+                    placeholder="Selecione a data do evento"
+                  />
+                  <ErrorMessage name="eventDate" component={FormErrorMessage} />
+                </FormControl>
+              )}
+            </Field>
 
-            <FormControl id="time" marginBottom="1rem">
-              <FormLabel>Hora do Evento:</FormLabel>
-              <Input
-                type="time"
-                name="time"
-                placeholder="Selecione a hora do evento"
-                as={Field}
-              />
-            </FormControl>
+            <Field name="time">
+              {({ field, form }: any) => (
+                <FormControl
+                  id="time"
+                  marginBottom="1rem"
+                  isInvalid={form.errors.time && form.touched.time}
+                >
+                  <FormLabel>Hora do Evento:</FormLabel>
+                  <Input
+                    {...field}
+                    name="time"
+                    type="time"
+                    placeholder="Selecione a hora do evento"
+                  />
+                  <ErrorMessage name="time" component={FormErrorMessage} />
+                </FormControl>
+              )}
+            </Field>
 
             <Button type="submit">Agendar</Button>
           </Form>
         </Formik>
       </div>
+      <ToastContainer />
     </div>
   )
 }

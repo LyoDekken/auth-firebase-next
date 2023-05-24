@@ -37,6 +37,7 @@ const LogIn: React.FC = () => {
     <form onSubmit={handleSubmit}>
       <Flex direction="column" w="full">
         <Input
+          autoComplete="email"
           required
           name="email"
           placeholder="email"
@@ -45,6 +46,7 @@ const LogIn: React.FC = () => {
           size="md"
         />
         <Input
+          autoComplete="current-password"
           required
           name="password"
           placeholder="password"
