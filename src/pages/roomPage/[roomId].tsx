@@ -1,9 +1,7 @@
-'use-client'
 import { useState, useEffect } from 'react'
 import { JitsiMeeting } from '@jitsi/react-sdk'
 import { useRouter } from 'next/router'
 import { getRoomDataFromFirestore } from '@/functions/functions'
-import error from 'next/error'
 
 const RoomPage = () => {
   const router = useRouter()
@@ -17,18 +15,6 @@ const RoomPage = () => {
 
   const [onCall, setOnCall] = useState(false)
 
-  useEffect(() => {
-    const handleCompilationError = (event: any) => {
-      // Redirecionar para outra página em caso de erro de compilação
-      router.push("/"); // Substitua "/" pela URL para a qual deseja redirecionar
-    };
-  
-    window.addEventListener("error", handleCompilationError);
-  
-    return () => {
-      window.removeEventListener("error", handleCompilationError);
-    };
-  }, []);
 
   useEffect(() => {
     const checkRoomValidity = async () => {
