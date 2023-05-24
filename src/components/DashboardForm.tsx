@@ -75,7 +75,8 @@ const DashboardForm = () => {
           .replace('{{sala}}', clientMsg.sala)
           .replace('{{senha}}', clientMsg.senha)
           .replace('{{eventDate}}', clientMsg.eventDate)
-          .replace('{{time}}', clientMsg.time),
+          .replace('{{time}}', clientMsg.time)
+          .replace('{{link}}', 'https://auth-firebase-next-l19s.vercel.app'),
       }
 
       const requestOptionsClient = {
@@ -104,7 +105,8 @@ const DashboardForm = () => {
           .replace('{{sala}}', clinicMsg.sala)
           .replace('{{senha}}', clinicMsg.senha)
           .replace('{{eventDate}}', clinicMsg.eventDate)
-          .replace('{{time}}', clinicMsg.time),
+          .replace('{{time}}', clinicMsg.time)
+          .replace('{{link}}', 'https://auth-firebase-next-l19s.vercel.app'),
       }
 
       const requestOptionsClinic = {

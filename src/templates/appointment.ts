@@ -41,11 +41,13 @@ export const emailTemplate = `<!DOCTYPE html>
   </head>
   <body>
     <div class="container">
-      <h1>Informações da Sala de Consulta</h1>
-      <p><strong>Sala:</strong> {{sala}}</p>
-      <p><strong>Senha:</strong> {{senha}}</p>
-      <p><strong>Data do Evento:</strong> {{eventDate}}</p>
-      <p><strong>Hora do Evento:</strong> {{time}}</p>
+    <h1>Informações da Sala de Consulta</h1>
+    <p><strong>Sala:</strong> {{sala}}</p>
+    <p><strong>Senha:</strong> {{senha}}</p>
+    <p><strong>Data do Evento:</strong> {{eventDate}}</p>
+    <p><strong>Hora do Evento:</strong> {{time}}</p>
+    
+    <p><strong>Link:</strong> {{link}}</p>
     </div>
     <p class="footer">
       Este e-mail foi gerado automaticamente. Por favor, não responda a este
