@@ -129,6 +129,8 @@ const DashboardForm = () => {
     } catch (error) {
       console.error('Erro desconhecido:', error)
     }
+
+    toast.success('Sala criada')
   }
 
   return (
