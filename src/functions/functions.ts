@@ -128,6 +128,7 @@ const EnterRoom = async ({ roomId, password }: EnterRoomParams) => {
   }
 }
 
+
 // const EnterRoom = async ({ roomId, password }: EnterRoomParams) => {
 //   try {
 //     const roomData = await getRoomDataFromFirestore(roomId)

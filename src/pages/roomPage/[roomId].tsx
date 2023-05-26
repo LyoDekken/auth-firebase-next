@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { JitsiMeeting } from '@jitsi/react-sdk'
 import { useRouter } from 'next/router'
 import { getRoomDataFromFirestore } from '@/functions/functions'
 
@@ -13,6 +14,7 @@ const RoomPage = () => {
   }
 
   const [onCall, setOnCall] = useState(false)
+
 
   useEffect(() => {
     const checkRoomValidity = async () => {
@@ -86,12 +88,69 @@ const RoomPage = () => {
     <>
       {onCall ? (
         <div>
-          <iframe
-            title="Video Conference"
-            src={`https://meet.jit.si/${data}`}
-            allow="camera; microphone; fullscreen"
-            style={{ width: '100%', height: '100vh', border: 'none' }}
-          ></iframe>
+          <JitsiMeeting
+            domain="meet.jit.si"
+            spinner={'circle'}
+            roomName={data}
+            configOverwrite={{
+              startWithAudioMuted: true,
+              startWithVideoMuted: true,
+              requireDisplayName: false,
+            }}
+            interfaceConfigOverwrite={{
+              LANG_DETECTION: true, // Ativar detecção automática de idioma
+              SHOW_JITSI_WATERMARK: false, // Exibir ou ocultar a marca d'água do Jitsi
+              SHOW_WATERMARK_FOR_GUESTS: false, // Exibir ou ocultar a marca d'água para convidados
+              TOOLBAR_BUTTONS: [
+                'microphone',
+                'camera',
+                'closedcaptions',
+                'desktop',
+                'fullscreen',
+                'fodeviceselection',
+                'hangup',
+                'profile',
+                'chat',
+                'recording',
+                'livestreaming',
+                'etherpad',
+                'sharedvideo',
+                'settings',
+                'raisehand',
+                'videoquality',
+                'filmstrip',
+                'invite',
+                'feedback',
+                'stats',
+                'shortcuts',
+                'tileview',
+                'videobackgroundblur',
+                'download',
+                'help',
+                'mute-everyone',
+              ], // Botões da barra de ferramentas a serem exibidos
+
+              // Configurações de exibição do vídeo em grade (tile view)
+              TILE_VIEW_MAX_COLUMNS: 5,
+            }}
+            getIFrameRef={(node) => {
+              if (window.innerWidth) {
+                node.style.width = '100vw' // Valor médio para desktop
+                node.style.height = '100vh' // Valor médio para desktop
+              } else if (window.innerWidth >= 768) {
+                node.style.width = '100vw' // Valor médio para tablet
+                node.style.height = '100vh' // Valor médio para tablet
+                node.style.overflowX = 'hidden' // Valor médio para desktop
+                node.style.overflowY = 'auto' // Valor médio para desktop
+              } else {
+                node.style.width = '100vw' // Valor médio para celular
+                node.style.height = '100vh' // Valor médio para celular
+                node.style.overflowX = 'hidden' // Valor médio para desktop
+                node.style.overflowY = 'scroll' // Valor médio para desktop
+              }
+              // Adicione outras propriedades de estilização conforme necessário
+            }}
+          />
         </div>
       ) : (
         <>

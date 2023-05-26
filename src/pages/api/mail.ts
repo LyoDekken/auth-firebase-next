@@ -1,15 +1,15 @@
-/* eslint-disable import/no-anonymous-default-export */
 import { NextApiRequest, NextApiResponse } from 'next'
 import mail from '@sendgrid/mail'
+import corsMiddleware from './middleware/cors'
 
 mail.setApiKey(process.env.API_KEY as string)
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { to, html } = req.body
 
   const mailOptions = {
     to,
-    from: process.env.MYEMAIL as string, // Usar o remetente fornecido no corpo da solicitação
+    from: process.env.MYEMAIL as string,
     subject: 'MEET-VAPTMED!',
     html,
   }
@@ -21,3 +21,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({ error: 'Error sending email' })
   }
 }
+
+export default corsMiddleware(handler)
