@@ -1,4 +1,3 @@
-````
 # Aplicação de Chamada de Vídeo
 
 Este é um projeto de exemplo para uma aplicação de chamada de vídeo utilizando Next.js.
@@ -16,7 +15,7 @@ Certifique-se de ter as seguintes ferramentas instaladas em seu ambiente de dese
 
    ```shell
    git clone https://github.com/seu-usuario/nome-do-repositorio.git
-````
+   ```
 
 2. Acesse o diretório do projeto:
 
@@ -40,7 +39,7 @@ Certifique-se de ter as seguintes ferramentas instaladas em seu ambiente de dese
 
 2. Abra o navegador e acesse a seguinte URL:
 
-   ```
+   ```shell
    http://localhost:3000
    ```
 
@@ -60,6 +59,3 @@ Se você quiser contribuir para este projeto, fique à vontade para abrir uma is
 
 Este projeto está licenciado sob a [Licença MIT](LICENSE).
 
-```
-
-```

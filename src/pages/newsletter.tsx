@@ -1,16 +1,16 @@
 import React from 'react'
 import { useColorMode } from '@chakra-ui/react'
 import Layout from './layout'
-import Blog from './content/Blog'
+import NewsletterPage from './content/Newsletter'
 
-const Index = () => {
+const Newsletter = () => {
   const { colorMode, toggleColorMode } = useColorMode()
 
   return (
     <Layout colorMode={colorMode} toggleColorMode={toggleColorMode}>
-      <Blog />
+      <NewsletterPage />
     </Layout>
   )
 }
 
-export default Index
+export default Newsletter

@@ -1,11 +1,23 @@
-// components/Layout.js
-import NavBar from '@/components/Header'
+import React, { ReactNode } from 'react'
+import Header from '@/components/common/Header.component'
+import Footer from '@/components/common/Footer.component'
 
-const Layout = ({ children, colorMode, toggleColorMode }: any) => {
+interface LayoutProps {
+  children: ReactNode
+  colorMode: 'light' | 'dark'
+  toggleColorMode: () => void
+}
+
+const Layout: React.FC<LayoutProps> = ({
+  children,
+  colorMode,
+  toggleColorMode,
+}) => {
   return (
     <>
-      <NavBar colorMode={colorMode} toggleColorMode={toggleColorMode} />
+      <Header colorMode={colorMode} toggleColorMode={toggleColorMode} />
       {children}
+      <Footer />
     </>
   )
 }
